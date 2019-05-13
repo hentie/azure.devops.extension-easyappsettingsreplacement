@@ -1,0 +1,38 @@
+{
+    "id": "fe3dc72c-5094-409c-b128-cdebd0fbdc22",
+    "name": "easy-appsettings-replace",
+    "friendlyName": "Easy AppSettings Replacement",
+    "description": "Easily Replace AppSettings values in config files for a folder",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Hentie Gildenhuys",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Easy AppSettings Replacement",
+    "inputs": [
+        {
+            "name": "filefilterinput",
+            "type": "string",
+            "label": "File Filter",
+            "defaultValue": "**/*.config",
+            "required": false,
+            "helpMarkDown": "Files to replace AppSettings values in"
+        },
+        {
+            "name": "replacementinput",
+            "type": "multiLine",
+            "label": "Replacements",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "List of key value replacements i.e. \"setting1\"=\"valueABC\""
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "index.js"
+        }
+    }
+}

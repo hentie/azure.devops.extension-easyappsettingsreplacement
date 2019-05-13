@@ -1,0 +1,8 @@
+node_modules 
+.vs
+package-lock.json
+.taskkey
+*.js
+*.vsix
+vss-extension.json
+publish.bat
