@@ -12,14 +12,13 @@ Replacements will happen in the first \<ApSettings> section on any file found ma
 * The key is the name key found in the AppSettings sectionT
 * The value is the value it will receive.
 * Each keyvalue pair must be on a new line
-* All files \<ApSettings> section config files 
+* All files \<AppSettings> section config files 
 
 ***Key value pairs example***:
 * key1=value1
 * "key1"=value2
 * 'key3'="value3"
 * key4=$(DevOpsVariable)
-
 
 
 ## Current Restrictions

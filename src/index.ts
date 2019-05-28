@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as glob from 'glob';
 
 
-let keyValuePairs:Array<[string, string]>;
+let keyValuePairs: Array<[string, string]>;
 
 async function run() {
     try {
@@ -13,20 +13,14 @@ async function run() {
             console.log('No file filter was given, using default', filefilterString);
         }
 
-        console.log('Files to replace AppSettings in:', filefilterString);
-
-        const replacementString: string = tl.getInput('replacementinput', true);
-
-        if (!isValidReplacementString(replacementString)) {
-            tl.setResult(tl.TaskResult.Failed, 'Invalid replacements input.\r\nValid formats:\r\nkey1=123\r\n\'key2\'=\'123\'\r\n"key3"="123"\r\nkey4=""');
+        const replacementStrings: Array<string> = tl.getDelimitedInput('replacementinput', "\n", true);
+        
+        if (!isValidReplacementString(replacementStrings)) {
+            tl.setResult(tl.TaskResult.Failed, 'Invalid replacements input.\nValid formats:\nkey1=123\n\'key2\'=\'123\'\n"key3"="123"\nkey4=""');
             return;
         }
 
-        keyValuePairs = extractKeyValues(replacementString);
-        for (var keyValue of keyValuePairs) {
-            console.log("Setting key \"" + keyValue[0] + "\" to value \"" + keyValue[1] + "\"");
-        }
-
+        keyValuePairs = extractKeyValues(replacementStrings);
         glob(filefilterString, replaceAppSettingsInFiles);
     }
     catch (err) {
@@ -36,7 +30,7 @@ async function run() {
 
 function replaceAppSettingsInFiles(error: Error | null, files: string[]): void {
 
-    console.log("Files for replacement:\r\n", files);
+    console.log("Matched files for replacement:\n", files);
 
     for (let file of files) {
         console.log("Replacing AppSettings in", file);
@@ -52,15 +46,13 @@ function replaceAppSettingsInFiles(error: Error | null, files: string[]): void {
     }
 };
 
-function extractKeyValues(input: string): Array<[string, string]> {
+function extractKeyValues(input: Array<string>): Array<[string, string]> {
     const trimRegex = /^["']+|["']+$/g;
     const splitRegex = /=(.+)/;
 
-    let inputRows = input.split("\r\n");
-
     let keyValuePairs: Array<[string, string]> = [];
 
-    for (let row of inputRows) {
+    for (let row of input) {
         if (row.trim() === "") //-- Skip empty lines
             continue;
         let keyRaw = row.split(splitRegex)[0];
@@ -75,12 +67,8 @@ function extractKeyValues(input: string): Array<[string, string]> {
     return keyValuePairs;
 }
 
-function isValidReplacementString(input:string): boolean {
-    if (input.trim() === "") {
-        return false;
-    }
-    let inputRows = input.split("\r\n");
-    for (let row of inputRows) {
+function isValidReplacementString(input:Array<string>): boolean {
+    for (let row of input) {
         if (row.trim() === "") //-- skip empty lines
             continue;
         if (row.indexOf("=") < 1 && row.lastIndexOf("=") < 1) {

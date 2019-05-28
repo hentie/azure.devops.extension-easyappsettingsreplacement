@@ -21,14 +21,18 @@
             "required": false,
             "helpMarkDown": "Files to replace AppSettings values in"
         },
-        {
-            "name": "replacementinput",
-            "type": "multiLine",
-            "label": "Replacements",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "List of key value replacements i.e. \"setting1\"=\"valueABC\""
-        }
+      {
+        "name": "replacementinput",
+        "type": "multiLine",
+        "properties": {
+          "resizable": true,
+          "rows": "6"
+        },
+        "label": "Replacements",
+        "defaultValue": "",
+        "required": true,
+        "helpMarkDown": "List of key value replacements i.e. \"setting1\"=\"valueABC\""
+      }
     ],
     "execution": {
         "Node": {
